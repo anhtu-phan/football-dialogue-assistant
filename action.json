@@ -1,0 +1,43 @@
+{
+  "actions": [
+    {
+      "description": "Default Welcome Intent",
+      "name": "MAIN",
+      "fulfillment": {
+        "conversationName": "welcome"
+      },
+      "intent": {
+        "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "talk to FootBall Information Assistant"
+          ]
+        }
+      }
+    },
+    {
+      "description": "Rasa Intent",
+      "name": "TEXT",
+      "fulfillment": {
+        "conversationName": "rasa_intent"
+      },
+      "intent": {
+        "name": "actions.intent.TEXT",
+        "trigger": {
+          "queryPatterns": []
+        }
+      }
+    }
+  ],
+  "conversations": {
+    "welcome": {
+      "name": "welcome",
+      "url": "https://27e21fbd0bb1.ngrok.io/webhooks/google_assistant/webhook"
+    },
+    "rasa_intent": {
+      "name": "rasa_intent",
+      "url": "https://27e21fbd0bb1.ngrok.io/webhooks/google_assistant/webhook"
+    }
+  },
+  "locale": "en"
+}
