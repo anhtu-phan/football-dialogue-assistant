@@ -32,11 +32,11 @@
   "conversations": {
     "welcome": {
       "name": "welcome",
-      "url": "https://27e21fbd0bb1.ngrok.io/webhooks/google_assistant/webhook"
+      "url": "https://d7e69c9221a1.ngrok.io/webhooks/google_assistant/webhook"
     },
     "rasa_intent": {
       "name": "rasa_intent",
-      "url": "https://27e21fbd0bb1.ngrok.io/webhooks/google_assistant/webhook"
+      "url": "https://d7e69c9221a1.ngrok.io/webhooks/google_assistant/webhook"
     }
   },
   "locale": "en"

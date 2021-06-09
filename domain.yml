@@ -5,23 +5,50 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
+  - ask_league_info
+
+actions:
+  - action_provide_league_info
+  - action_statistic_league
+  - action_top_player
+  - action_player_info
+  - action_fixtures
+  - action_line_up
+  - action_club_info
+
+entities:
+  - league_name
+  - statistic_type
+  - query_round
+  - query_number
+  - player_name
+  - club_name
+  - first_club
+  - second_club
+  - query_type
+
+slots:
+  league_name:
+    type: text
+  statistic_type:
+    type: text
+  round:
+    type: text
+  player_name:
+    type: text
+  club_name:
+    type: text
+  first_club:
+    type: text
+  second_club:
+    type: text
+  query_type:
+    type: text
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
+  - text: "Hello! How can I help you?"
 
   utter_goodbye:
   - text: "Bye"

@@ -2,29 +2,21 @@ version: "2.0"
 
 stories:
 
-- story: happy path
+- story: story_20210609
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - intent: ask_league_info
+  - action: action_provide_league_info
+  - intent: ask_statistic_league
+  - action: action_statistic_league
+  - intent: ask_top_player
+  - action: action_top_player
+  - intent: ask_player_info
+  - action: action_player_info
+  - intent: ask_fixtures
+  - action: action_fixtures
+  - intent: ask_line_up
+  - action: action_line_up
+  - intent: ask_club_info
+  - action: action_club_info

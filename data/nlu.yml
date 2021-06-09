@@ -50,43 +50,41 @@ nlu:
     - no way
     - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: ask_league_info
+  examples: |
+    - Tell me about [Premier League](league_name)
+    - How about [La Liga](league_name)
+
+- intent: ask_statistic_league
+  examples: |
+    - [Top](statistic_type) [4](query_number) teams in the [Premier League](league_name) [now](query_round)
+    - [Top](statistic_type) [4](query_number) teams in the [premier league](league_name) round [23](query_round)
+
+- intent: ask_top_player
+  examples: |
+    - Who is the top player of the [Premier League](league_name) now
+    - top player of the [Premier League](league_name) now
+
+- intent: ask_player_info
+  examples: |
+    - How many [goals](query_type] did [Timo Werner](player_name) score
+    - Number [goals](query_type) of [Kai Havert](player_name) at [Premier League](league_name)
+
+- intent: ask_fixtures
+  examples: |
+    - The next matches of [Chelsea](club_name]
+
+- intent: ask_line_up
+  examples: |
+    - The line-up of [Chelsea](first_club) with [Villarreal](second_club)
+
+- intent: ask_club_info
+  examples: |
+    - The [position](query_type) of [Chelsea](club_name)
