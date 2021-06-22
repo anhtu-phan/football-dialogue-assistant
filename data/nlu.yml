@@ -60,7 +60,11 @@ nlu:
 - intent: ask_league_info
   examples: |
     - Tell me about [Premier League](league_name)
+    - Tell me about [euro](league_name)
+    - Tell me about [La Liga](league_name)
     - How about [La Liga](league_name)
+    - How about [Premier League](league_name)
+    - How about [euro](league_name)
 
 - intent: ask_statistic_league
   examples: |
@@ -71,11 +75,18 @@ nlu:
   examples: |
     - Who is the top player of the [Premier League](league_name) now
     - top player of the [Premier League](league_name) now
+    - Who is the top player of the [Euro](league_name) now
+    - top player of the [Euro](league_name) now
+    - Top [4](query_number) player of [Euro](league_name)
+    - Top [4](query_number) player of [Premier League](league_name)
 
 - intent: ask_player_info
   examples: |
     - How many [goals](query_type] did [Timo Werner](player_name) score
-    - Number [goals](query_type) of [Kai Havert](player_name) at [Premier League](league_name)
+    - How many [goals](query_type] did [Kai Havert](player_name) score
+    - How many [goals](query_type] did [Eden Hazard](player_name) score
+    - How many [goals](query_type] did [Lukaku](player_name) score
+    - Number [goals](query_type) of [Kai Havert](player_name) at [Premier League](spec_league_name)
 
 - intent: ask_fixtures
   examples: |

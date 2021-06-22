@@ -19,6 +19,7 @@ actions:
 
 entities:
   - league_name
+  - spec_league_name
   - statistic_type
   - query_round
   - query_number
@@ -31,13 +32,19 @@ entities:
 slots:
   league_name:
     type: text
+  global_league_name:
+    type: text
   statistic_type:
     type: text
   round:
     type: text
   player_name:
     type: text
+  global_player_name:
+      type: text
   club_name:
+    type: text
+  global_club_name:
     type: text
   first_club:
     type: text
