@@ -59,15 +59,10 @@ nlu:
 
 - intent: ask_league_info
   examples: |
-    - tell me about [premier eague](league_name)
-    - tell me about [bundesliga](league_name)
+    - tell me about [premier league](league_name)
     - how about [la liga](league_name)
-    - how about [euro](league_name)
     - [bundesliga](league_name)
-    - [champion league](league_name)
-    - [seriea](league_name) information
     - [euro](league_name) information
-
 
 - intent: ask_statistic_league
   examples: |
@@ -79,17 +74,15 @@ nlu:
   examples: |
     - who is the top player of the [premier league](league_name) now
     - top player of the [premier league](league_name) now
-    - top [4](query_number) player of [euro](league_name)
-    - top [four]{"entity": "query_number", "value": "4"} player of [la liga](league_name)
+    - top [2](query_number) player of [euro](league_name)
+    - [4](query_number) goalsscore in [euro](league_name)
+    - top [four](query_number) player of [la liga](league_name)
 
 - intent: ask_player_info
   examples: |
-    - how many [goals](query_type) did [timo werner]{"entity": "person"} score
-    - how many [goals](query_type) did [kante]{"entity": "person"} score
-    - how many [goals](query_type) did [kai harvert]{"entity": "person"} score
-    - number [goals](query_type) of [Kai Havert]{"entity": "person"} at [premier league](spec_league_name)
-    - number [goals](query_type) of [Timo Werner]{"entity": "person"} at [champion league](spec_league_name)
-    - number [goals](query_type) of [Eden hazard]{"entity": "person"} at [fa cup](spec_league_name)
+    - how many [goals](query_type) did [timo werner](PERSON) score
+    - number [goals](query_type) of [Kai Havert](PERSON) at [premier league](spec_league_name)
+    - in [euro](spec_league_name) [kante](PERSON) scores how many goals
 
 - intent: ask_fixtures
   examples: |
@@ -113,3 +106,40 @@ nlu:
 - synonym: '4'
   examples: |
     - four
+
+- synonym: '2'
+  examples: |
+    - two
+
+- lookup: query_type
+  examples: |
+    - goals
+    - position
+
+- lookup: league_name
+  examples: |
+    - premier league
+    - la liga
+    - euro
+    - ...
+    - bundesliga
+    - seriea
+
+- lookup: spec_league_name
+  examples: |
+    - premier league
+    - la liga
+    - euro
+    - ...
+    - bundesliga
+    - seriea
+
+- lookup: club_name
+  examples: |
+    - chelsea
+    - england
+    - germany
+    - croatia
+    - ...
+    - machester City
+    - real Madrid

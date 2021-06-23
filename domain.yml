@@ -29,7 +29,7 @@ entities:
   - statistic_type
   - query_round
   - query_number
-  - person
+  - PERSON
   - club_name
   - first_club
   - second_club
@@ -38,15 +38,15 @@ entities:
 slots:
   league_name:
     type: text
+  PERSON:
+    type: text
   global_league_name:
     type: text
   statistic_type:
     type: text
   query_round:
     type: text
-  person:
-    type: text
-  global_player_name:
+  spec_league_name:
       type: text
   club_name:
     type: text
