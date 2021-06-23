@@ -29,7 +29,7 @@ entities:
   - statistic_type
   - query_round
   - query_number
-  - player_name
+  - person
   - club_name
   - first_club
   - second_club
@@ -44,7 +44,7 @@ slots:
     type: text
   query_round:
     type: text
-  player_name:
+  person:
     type: text
   global_player_name:
       type: text

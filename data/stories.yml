@@ -7,16 +7,74 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: ask_league_info
+    entities:
+      - league_name: premier league
   - action: action_provide_league_info
   - intent: ask_statistic_league
+    entities:
+      - query_number: 4
+      - league_name: premier league
+      - query_round: 23
   - action: action_statistic_league
   - intent: ask_top_player
+    entities:
+      - query_number: four
+      - league_name: premier league
   - action: action_top_player
   - intent: ask_player_info
+    entities:
+      - person: timo werner
+      - spec_league_name: premier league
+      - query_type: goals
   - action: action_player_info
   - intent: ask_fixtures
+    entities:
+      - club_name: chelsea
   - action: action_fixtures
   - intent: ask_line_up
+    entities:
+      - first_club
+      - second_club
   - action: action_line_up
   - intent: ask_club_info
+    entities:
+      - club_name: chelsea
+      - query_type: position
+  - action: action_club_info
+
+- story: story_20210623
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_league_info
+    entities:
+      - league_name: premier league
+  - action: action_provide_league_info
+  - intent: ask_statistic_league
+    entities:
+      - query_number: 4
+      - league_name: premier league
+  - action: action_statistic_league
+  - intent: ask_top_player
+    entities:
+      - league_name: premier league
+  - action: action_top_player
+  - intent: ask_player_info
+    entities:
+      - person: timo werner
+      - query_type: goals
+  - action: action_player_info
+  - intent: ask_fixtures
+    entities:
+      - club_name: england
+      - league_name: euro
+  - action: action_fixtures
+  - intent: ask_line_up
+    entities:
+      - first_club
+      - second_club
+  - action: action_line_up
+  - intent: ask_club_info
+    entities:
+      - club_name: chelsea
   - action: action_club_info
