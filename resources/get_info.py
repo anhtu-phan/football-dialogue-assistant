@@ -38,9 +38,9 @@ def get_current_season(league_id):
     return current_season
 
 
-def search_player(player_name, league_id=None, team_id=None):
+def search_player(i_player_name, league_id=None, team_id=None):
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
-    player_names = player_name.lower().split(" ")
+    player_names = i_player_name.lower().split(" ")
     for player_name in player_names:
         querystring = {"search": player_name}
         if league_id is not None:
@@ -53,6 +53,23 @@ def search_player(player_name, league_id=None, team_id=None):
             response = response.json()
             if response is not None and len(response['response']) > 0:
                 return response['response'][0]['player']
+    return {"id": None}
+
+
+def search_team(i_team_name, league_id=None, country=None):
+    url = "https://api-football-v1.p.rapidapi.com/v3/teams"
+    team_names = i_team_name.lower().split(" ")
+    for team_name in team_names:
+        querystring = {"search": team_name}
+        if league_id is not None:
+            querystring['league'] = league_id
+        if country is not None:
+            querystring['country'] = country
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            response = response.json()
+            if response is not None and len(response['response']) > 0:
+                return response['response'][0]['team']
     return {"id": None}
 
 
