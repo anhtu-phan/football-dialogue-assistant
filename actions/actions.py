@@ -9,9 +9,23 @@
 
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, Restarted
 from rasa_sdk.executor import CollectingDispatcher
 from resources import get_info
+
+
+# class ActionRestart(Action):
+#
+#     def name(self) -> Text:
+#         return "action_restart"
+#
+#     def run(
+#         self,
+#         dispatcher: "CollectingDispatcher",
+#         tracker: Tracker,
+#         domain: "DomainDict",
+#     ) -> List[Dict[Text, Any]]:
+#         return [Restarted()]
 
 
 class ActionProvideLeagueInfo(Action):
@@ -38,11 +52,13 @@ class ActionProvideLeagueInfo(Action):
                     mess = f"There are {nb_matches} matches coming up:\n" + mess
                 else:
                     mess = "The season is over"
+            else:
+                mess = "Sorry! I cannot find information about this league"
         except Exception as e:
             print(e)
             mess = "Sorry! I cannot find information about this league"
         dispatcher.utter_message(mess)
-        return [SlotSet("global_league_name", league_name)]
+        return [SlotSet("global_league_name", league_name), SlotSet("league_name", None)]
 
 
 class ActionStatisticLeague(Action):
@@ -63,7 +79,7 @@ class ActionStatisticLeague(Action):
         print(f"ActionStatisticLeague ---->>>>> statistic_type = {statistic_type} league_name = {league_name} "
               f"query_round = {query_round} query_number = {query_number}")
         dispatcher.utter_message("MC, MU, Liver, Chelsea")
-        return []
+        return [SlotSet("league_name", None)]
 
 
 class ActionTopPlayer(Action):
@@ -98,7 +114,7 @@ class ActionTopPlayer(Action):
             print(e)
             mess = "Sorry I cannot find this information"
         dispatcher.utter_message(mess)
-        return []
+        return [SlotSet("league_name", None), SlotSet("query_number", None)]
 
 
 class ActionPlayerInfo(Action):
@@ -114,7 +130,7 @@ class ActionPlayerInfo(Action):
         print("========== ActionPlayerInfo ==========")
         try:
             player_name = tracker.get_slot("PERSON")
-            league_name = tracker.get_slot("spec_league_name")
+            league_name = tracker.get_slot("league_name")
             season = tracker.get_slot("season")
             nb_league = 1
             if league_name is None:
@@ -126,7 +142,7 @@ class ActionPlayerInfo(Action):
             query_type = tracker.get_slot("query_type")
 
             print(f"ActionPlayerInfo ---->>>>> player_name = {player_name} "
-                  f"league_name = {league_name}({tracker.get_slot('spec_league_name')}) query_type={query_type} nb_league = {nb_league}")
+                  f"league_name = {league_name}({tracker.get_slot('league_name')}) query_type={query_type} nb_league = {nb_league}")
             result = get_info.get_player_statistic(player_name, [league_name], season, nb_league, query_type)
             # print(f"ActionPlayerInfo ---->>>>> results = {result}")
             # result = None
@@ -141,7 +157,7 @@ class ActionPlayerInfo(Action):
             print(e)
             mess = "Sorry I cannot find information about this player"
         dispatcher.utter_message(mess)
-        return [SlotSet("league_name", None), SlotSet("PERSON", None)]
+        return [SlotSet("league_name", None), SlotSet("PERSON", None), SlotSet("query_type", None)]
 
 
 class ActionFixtures(Action):
@@ -154,10 +170,25 @@ class ActionFixtures(Action):
             tracker: Tracker,
             domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
-        club_name = tracker.get_slot("club_name")
-        print(f"ActionFixtures ---->>>>> club_name = {club_name}")
-        dispatcher.utter_message(f"{club_name} will meet Villarreal on Aug 11, 21:00 at UEFA Super Cup")
-        return []
+        try:
+            club_name = tracker.get_slot("club_name")
+            league_name = tracker.get_slot("league_name")
+            print(f"ActionFixtures ---->>>>> club_name = {club_name} league_name = {league_name}")
+            result = get_info.get_fixtures_by_team(club_name, league_name=league_name)
+            if len(result['result']) > 0:
+                mess = f"{result['team_name']} will\n"
+                for res in result['result']:
+                    if res["type"] == "home":
+                        mess += f"meet {res['team']} at {res['round']} of {res['league']} in {res['time']} at home;\n"
+                    else:
+                        mess += f"visit {res['team']} at {res['round']} of {res['league']} in {res['time']};\n"
+            else:
+                mess = f"Sorry I cannot find information about next matches of {result['team_name']}"
+        except Exception as e:
+            print(e)
+            mess = "Sorry I cannot find information"
+        dispatcher.utter_message(mess)
+        return [SlotSet("club_name", None), SlotSet("league_name", None)]
 
 
 class ActionLineUp(Action):

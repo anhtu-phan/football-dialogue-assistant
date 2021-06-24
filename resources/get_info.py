@@ -41,7 +41,8 @@ def get_current_season(league_id):
 def search_player(i_player_name, league_id=None, team_id=None):
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
     player_names = i_player_name.lower().split(" ")
-    for player_name in player_names:
+    for i in range(len(player_names)-1, -1, -1):
+        player_name = player_names[i]
         querystring = {"search": player_name}
         if league_id is not None:
             querystring['league'] = league_id
@@ -59,7 +60,8 @@ def search_player(i_player_name, league_id=None, team_id=None):
 def search_team(i_team_name, league_id=None, country=None):
     url = "https://api-football-v1.p.rapidapi.com/v3/teams"
     team_names = i_team_name.lower().split(" ")
-    for team_name in team_names:
+    for i in range(len(team_names)-1, -1, -1):
+        team_name = team_names[i]
         querystring = {"search": team_name}
         if league_id is not None:
             querystring['league'] = league_id
@@ -123,6 +125,51 @@ def get_fixtures_by_round(league_id, season, round_name):
     return result
 
 
+def get_fixtures_by_team(team, status="NS", league_name=None, season=None, league_round=None, nb_match=5):
+    league_id = None
+    if league_name is not None:
+        league_id = search_league(league_name)['id']
+    query_team = search_team(team)
+    if query_team['id'] is None:
+        return {"team_name": None, "result": []}
+    team_id = query_team['id']
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    querystring = {"team": team_id, "status": status}
+    if season is None:
+        season = datetime.today().year
+    querystring['season'] = season
+    if league_round is not None:
+        querystring['round'] = league_round
+    if league_id is not None:
+        querystring['league'] = league_id
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    result = []
+    if response.status_code == 200:
+        response = response.json()
+        if response['results'] == 0:
+            querystring['season'] = int(season) - 1
+            response = requests.request("GET", url, headers=headers, params=querystring).json()
+        # print(response)
+        for res in response['response']:
+            if len(result) == nb_match:
+                break
+            if res['teams']['home']['id'] == team_id:
+                stadium_type = "home"
+                vs_team = res['teams']['away']['name']
+            else:
+                stadium_type = "away"
+                vs_team = res['teams']['home']['name']
+            result.append({
+                "team": vs_team,
+                "type": stadium_type,
+                "league": res['league']['name'],
+                "round": res['league']['round'],
+                "time": datetime.fromtimestamp(res['fixture']['timestamp']).strftime("%b %d %I:%M%p")
+            })
+    return {"team_name": query_team['name'], "result": result}
+
+
 def get_top_score(league_name, season=None, number_players=1):
     url = "https://api-football-v1.p.rapidapi.com/v3/players/topscorers"
     league_id = search_league(league_name)['id']
@@ -183,6 +230,7 @@ def get_player_statistic(player_name, league_names, season=None, nb_league=0, qu
 
 
 if __name__ == '__main__':
-    league_id = search_league("euro")
-    r = get_player_statistic("werner", ["euro"], nb_league=0)
+    # league_id = search_league("euro")
+    # r = get_player_statistic("werner", ["euro"], nb_league=0)
+    r = get_fixtures_by_team("england", league_name=None)
     print(r)

@@ -81,19 +81,21 @@ nlu:
 - intent: ask_player_info
   examples: |
     - how many [goals](query_type) did [timo werner](PERSON) score
-    - number [goals](query_type) of [Kai Havert](PERSON) at [premier league](spec_league_name)
-    - in [euro](spec_league_name) [kante](PERSON) scores how many goals
+    - number [goals](query_type) of [Kai Havert](PERSON) at [premier league](league_name)
+    - in [euro](league_name) [kante](PERSON) scores how many goals
 
 - intent: ask_fixtures
   examples: |
     - the next matches of [chelsea](club_name)
     - the fixtures of [england](club_name) at [euro](league_name)
     - the fixtures of [manchester city](club_name)
+    - the next match of [germany](club_name) at [euro](league_name)
+    - next match of [manchester united](club_name) at [champion league](league_name)
 
 - intent: ask_line_up
   examples: |
     - the line-up of [chelsea](first_club) with [villarreal](second_club)
-    - [chelsea](first_club) vs (machester city)(second_club) line-up
+    - [chelsea](first_club) vs (manchester city)(second_club) line-up
 
 
 - intent: ask_club_info
@@ -125,15 +127,6 @@ nlu:
     - bundesliga
     - seriea
 
-- lookup: spec_league_name
-  examples: |
-    - premier league
-    - la liga
-    - euro
-    - ...
-    - bundesliga
-    - seriea
-
 - lookup: club_name
   examples: |
     - chelsea
@@ -141,5 +134,6 @@ nlu:
     - germany
     - croatia
     - ...
-    - machester City
-    - real Madrid
+    - manchester city
+    - real madrid
+    - manchester united

@@ -15,7 +15,7 @@ pipeline:
    - name: SpacyEntityExtractor
      dimensions: ["PERSON"]
    - name: DIETClassifier
-     epochs: 100
+     epochs: 500
      constrain_similarities: true
    - name: EntitySynonymMapper
 
