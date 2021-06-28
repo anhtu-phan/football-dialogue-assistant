@@ -1,4 +1,4 @@
-# football-dialogue-assistant
+# Football Dialogue Assistant
 
 ### How to run
 - `pip install rasa`
