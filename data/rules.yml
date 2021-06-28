@@ -11,3 +11,12 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: Provide league info to answer club info instead of providing league info
+  condition:
+  - slot_was_set:
+    - club_information: true
+  steps:
+  - action: action_club_info
+  - intent: provide_league_info
+  - action: action_club_info_spec

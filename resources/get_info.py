@@ -104,7 +104,7 @@ def get_fixtures(league_id, season, current=True):
 def get_fixtures_by_round(league_id, season, round_name):
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
 
-    querystring = {"league": league_id, "season": season, "round": round_name}
+    querystring = {"league": league_id, "season": season, "round": round_name, "status": "NS"}
     response = requests.request("GET", url, headers=headers, params=querystring)
     result = {
         "round": round_name,
@@ -166,6 +166,35 @@ def get_fixtures_by_team(team, status="NS", league_name=None, season=None, leagu
                 "league": res['league']['name'],
                 "round": res['league']['round'],
                 "time": datetime.fromtimestamp(res['fixture']['timestamp']).strftime("%b %d %I:%M%p")
+            })
+    return {"team_name": query_team['name'], "result": result}
+
+
+def get_standing_by_team(team, season=None, league_name=None):
+    url = "https://api-football-v1.p.rapidapi.com/v3/standings"
+    query_team = search_team(team)
+    if query_team['id'] is None:
+        return {"team_name": None, "result": []}
+
+    querystring = {"team": query_team['id']}
+    if season is None:
+        season = int(datetime.today().year) - 1
+    querystring['season'] = season
+    if league_name is not None:
+        league_id = search_league(league_name)
+        if league_id is not None:
+            querystring['league'] = league_id
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    result = []
+    if response.status_code == 200:
+        response = response.json()
+        for res in response['response']:
+            result.append({
+                "league_id": res['league']['id'],
+                "league_name": res['league']['name'],
+                "rank": res['league']['standings'][0][0]['rank'],
+                "points": res['league']['standings'][0][0]['points']
             })
     return {"team_name": query_team['name'], "result": result}
 
@@ -232,5 +261,5 @@ def get_player_statistic(player_name, league_names, season=None, nb_league=0, qu
 if __name__ == '__main__':
     # league_id = search_league("euro")
     # r = get_player_statistic("werner", ["euro"], nb_league=0)
-    r = get_fixtures_by_team("england", league_name=None)
+    r = get_standing_by_team(team="chelsea")
     print(r)

@@ -8,24 +8,13 @@
 # This is a simple example for a custom action which utters "Hello World!"
 
 from typing import Any, Text, Dict, List
+
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet, Restarted
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+import json
+
 from resources import get_info
-
-
-# class ActionRestart(Action):
-#
-#     def name(self) -> Text:
-#         return "action_restart"
-#
-#     def run(
-#         self,
-#         dispatcher: "CollectingDispatcher",
-#         tracker: Tracker,
-#         domain: "DomainDict",
-#     ) -> List[Dict[Text, Any]]:
-#         return [Restarted()]
 
 
 class ActionProvideLeagueInfo(Action):
@@ -37,9 +26,9 @@ class ActionProvideLeagueInfo(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         league_name = tracker.get_slot("league_name")
+        print(f"ActionProvideLeagueInfo ---->>>>> league_name = {league_name} Slot = {tracker.slots}")
         try:
             if league_name is not None:
-                print(f"ActionProvideLeagueInfo ---->>>>> league_name = {league_name}")
                 result = get_info.get_league_info(league_name)
                 if result is not None:
                     mess = ""
@@ -59,27 +48,6 @@ class ActionProvideLeagueInfo(Action):
             mess = "Sorry! I cannot find information about this league"
         dispatcher.utter_message(mess)
         return [SlotSet("global_league_name", league_name), SlotSet("league_name", None)]
-
-
-class ActionStatisticLeague(Action):
-    def name(self) -> Text:
-        return "action_statistic_league"
-
-    def run(
-            self,
-            dispatcher: "CollectingDispatcher",
-            tracker: Tracker,
-            domain: "DomainDict",
-    ) -> List[Dict[Text, Any]]:
-        statistic_type = tracker.get_slot("statistic_type")
-        league_name = tracker.get_slot("league_name")
-        query_round = tracker.get_slot("query_round")
-        query_number = tracker.get_slot("query_number")
-        # TODO query api
-        print(f"ActionStatisticLeague ---->>>>> statistic_type = {statistic_type} league_name = {league_name} "
-              f"query_round = {query_round} query_number = {query_number}")
-        dispatcher.utter_message("MC, MU, Liver, Chelsea")
-        return [SlotSet("league_name", None)]
 
 
 class ActionTopPlayer(Action):
@@ -102,7 +70,7 @@ class ActionTopPlayer(Action):
                 query_number = int(i_query_number)
             except:
                 query_number = 1
-            print(f"ActionTopPlayer ---->>>>> league_name = {league_name}({tracker.get_slot('league_name')}) season = {season} query_number = {query_number}({i_query_number})")
+            print(f"ActionTopPlayer ---->>>>> league_name = {league_name}({tracker.get_slot('league_name')}) season = {season} query_number = {query_number}({i_query_number}) Slot = {tracker.slots}")
             result = get_info.get_top_score(league_name, season, query_number)
             if query_number == 1:
                 mess = f"The top player is {result[0]['name']} of {result[0]['team']} with {result[0]['goals']} goals"
@@ -127,7 +95,7 @@ class ActionPlayerInfo(Action):
             tracker: Tracker,
             domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
-        print("========== ActionPlayerInfo ==========")
+        print(f"========== ActionPlayerInfo ========== Slot = {tracker.slots}")
         try:
             player_name = tracker.get_slot("PERSON")
             league_name = tracker.get_slot("league_name")
@@ -173,15 +141,15 @@ class ActionFixtures(Action):
         try:
             club_name = tracker.get_slot("club_name")
             league_name = tracker.get_slot("league_name")
-            print(f"ActionFixtures ---->>>>> club_name = {club_name} league_name = {league_name}")
+            print(f"ActionFixtures ---->>>>> club_name = {club_name} league_name = {league_name} Slot = {tracker.slots}")
             result = get_info.get_fixtures_by_team(club_name, league_name=league_name)
             if len(result['result']) > 0:
                 mess = f"{result['team_name']} will\n"
                 for res in result['result']:
                     if res["type"] == "home":
-                        mess += f"meet {res['team']} at {res['round']} of {res['league']} in {res['time']} at home;\n"
+                        mess += f"Meet {res['team']} at {res['round']} of {res['league']} in {res['time']} at home;\n"
                     else:
-                        mess += f"visit {res['team']} at {res['round']} of {res['league']} in {res['time']};\n"
+                        mess += f"Visit {res['team']} at {res['round']} of {res['league']} in {res['time']};\n"
             else:
                 mess = f"Sorry I cannot find information about next matches of {result['team_name']}"
         except Exception as e:
@@ -189,23 +157,6 @@ class ActionFixtures(Action):
             mess = "Sorry I cannot find information"
         dispatcher.utter_message(mess)
         return [SlotSet("club_name", None), SlotSet("league_name", None)]
-
-
-class ActionLineUp(Action):
-    def name(self) -> Text:
-        return "action_line_up"
-
-    def run(
-            self,
-            dispatcher: "CollectingDispatcher",
-            tracker: Tracker,
-            domain: "DomainDict",
-    ) -> List[Dict[Text, Any]]:
-        first_club = tracker.get_slot("first_club")
-        second_club = tracker.get_slot("second_club")
-        print(f"ActionLineUp ---->>>>> {first_club} vs {second_club}")
-        dispatcher.utter_message("Coming soon")
-        return []
 
 
 class ActionClubInfo(Action):
@@ -219,7 +170,56 @@ class ActionClubInfo(Action):
             domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
         club_name = tracker.get_slot("club_name")
-        query_type = tracker.get_slot("query_type")
-        print(f"ActionClubInfo ---->>>>> {club_name} vs {query_type}")
-        dispatcher.utter_message("Coming soon")
-        return []
+        league_name = tracker.get_slot("league_name")
+        print(f"ActionClubInfo ---->>>>> {club_name} at {league_name} Slot = {tracker.slots}")
+        try:
+            result = get_info.get_standing_by_team(team=club_name, league_name=league_name)
+            if len(result['result']) > 1:
+                mess = ""
+                for i in range(len(result['result'])-1):
+                    le = result['result'][i]
+                    mess += f"{le['league_name']}, "
+                mess += f"and {result['result'][-1]['league_name']}"
+                dispatcher.utter_message(f"{result['team_name']} is participating {mess}.\n"
+                                         f"Which league do you want to know about?")
+
+                return [SlotSet("club_name", None), SlotSet("query_type", None), SlotSet("league_name", None), SlotSet("club_information", json.dumps(result))]
+            else:
+                mess = f"In {result['result'][0]['league_name']}, {result['team_name']} is at {result['result'][0]['rank']} position with {result['result'][0]['points']} point"
+        except Exception as e:
+            print(e)
+            mess = "Sorry! I cannot find this information!"
+        dispatcher.utter_message(mess)
+        return [SlotSet("club_name", None)]
+
+
+class ActionClubInfoSpec(Action):
+
+    def name(self) -> Text:
+        return "action_club_info_spec"
+
+    def run(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: Tracker,
+        domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+        club_info = tracker.get_slot("club_information")
+        if club_info is not None:
+            club_info = json.loads(club_info)
+        league_name = tracker.get_slot("league_name")
+        print(f"ActionClubInfoSpec ---->>>>> at {league_name}\n Slot = {tracker.slots}")
+        mess = "Sorry! I cannot find this information"
+        if club_info is not None:
+            if league_name.lower() == "all":
+                mess = ""
+                for res in club_info['result']:
+                    mess += f"In {res['league_name']}, {club_info['team_name']} is at {res['rank']} position with {res['points']} point.\n"
+            else:
+                league_id = get_info.search_league(league_name)['id']
+                for res in club_info['result']:
+                    if res['league_id'] == league_id:
+                        mess = f"In {res['league_name']}, {club_info['team_name']} is at {res['rank']} position with {res['points']} point"
+
+        dispatcher.utter_message(mess)
+        return [SlotSet("league_name", None), SlotSet("club_information", None)]

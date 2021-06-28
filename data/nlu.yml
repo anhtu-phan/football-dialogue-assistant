@@ -19,7 +19,6 @@ nlu:
 
 - intent: goodbye
   examples: |
-    - good afternoon
     - cu
     - good by
     - cee you later
@@ -61,14 +60,16 @@ nlu:
   examples: |
     - tell me about [premier league](league_name)
     - how about [la liga](league_name)
-    - [bundesliga](league_name)
     - [euro](league_name) information
-
-- intent: ask_statistic_league
-  examples: |
-    - [top](statistic_type) [4](query_number) teams in the [premier league](league_name)
-    - [top](statistic_type) [4](query_number) teams in the [premier league](league_name) [now](query_round)
-    - [top](statistic_type) [4](query_number) teams in the [premier league](league_name) round [23](query_round)
+    - [champion league](league_name) info
+    - provide [bundesliga](league_name) infor
+    - tell me about [seria](league_name)
+    - news about [premier league](league_name)
+    - [premier league](league_name) news
+    - i need information of [bundesliga](league_name)
+    - i need info of [seria](league_name)
+    - tell me about information of [euro](league_name)
+    - latest news about [euro championship](league_name)
 
 - intent: ask_top_player
   examples: |
@@ -77,33 +78,60 @@ nlu:
     - top [2](query_number) player of [euro](league_name)
     - [4](query_number) goalsscore in [euro](league_name)
     - top [four](query_number) player of [la liga](league_name)
+    - tell me top player of [champion league](league_name)
+    - tell me top [5](query_number) player of [bundesliga](league_name)
+    - tell me information about top player of [seria](league_name)
+    - update info about top [three](query_number) players of [euro championship](league_name)
+    - information about top [3](query_number) players of [premier league](league_name)
 
 - intent: ask_player_info
   examples: |
     - how many [goals](query_type) did [timo werner](PERSON) score
     - number [goals](query_type) of [Kai Havert](PERSON) at [premier league](league_name)
     - in [euro](league_name) [kante](PERSON) scores how many goals
+    - [goals](query_type) information of [Olivier Giroud](PERSON) at [champion league](league_name)
+    - [assists](query_type) info of [harry kane](PERSON)
+    - [bruno Fernandes](PERSON) [assists](query_type) how many times at [premier league](league_name)
+    - [son Heung-Min](PERSON) [goals](query_type) how many times at [champion league](league_name)
+    - how many [assists](query_type) did [Jorginho](PERSON) made
+    - in [euro championship](league_name) how many [goals](query_type) scored by [Mason Mount](PERSON)
+    - update information about number of [goals](query_type) of [Christian Pulisic](PERSON)
+    - update [assists](query_type) information of [Hakim Ziyech](PERSON) at [premier league](league_name)
 
 - intent: ask_fixtures
   examples: |
     - the next matches of [chelsea](club_name)
     - the fixtures of [england](club_name) at [euro](league_name)
-    - the fixtures of [manchester city](club_name)
-    - the next match of [germany](club_name) at [euro](league_name)
-    - next match of [manchester united](club_name) at [champion league](league_name)
-
-- intent: ask_line_up
-  examples: |
-    - the line-up of [chelsea](first_club) with [villarreal](second_club)
-    - [chelsea](first_club) vs (manchester city)(second_club) line-up
-
+    - fixtures of [manchester city](club_name)
+    - tell me fixtures of [germany](club_name) [euro championship](league_name)
+    - update fixtures of [manchester united](club_name)
+    - information about next matches of [arsenal](club_name) at [premier league](league_name)
+    - the fixtures info of [liverpool](club_name)
+    - fixtures information of [real madrid](club_name) in [la liga](league_name)
+    - list next matches of [arsenal](club_name)
+    - [liverpool](club_name)'s next matches
 
 - intent: ask_club_info
   examples: |
-    - the [position](query_type) of [chelsea](club_name)
-    - [chelsea](club_name)
+    - the position of [chelsea](club_name)
+    - in [premier league](league_name) which position of [aston villa](club_name)
     - [manchester city](club_name) news
-    - news about [machester united](club_name)
+    - news about [manchester united](club_name)
+    - information of [england](club_name) in [euro](league_name)
+    - which position of [liverpool](club_name)
+    - position of [arsenal](club_name)
+    - update information of [germany] at [euro championship](league_name)
+    - provide info at [euro championship](league_name) of [italy](club_name)
+    - update position of [liverpool](club_name) at [premier league](league_name)
+
+- intent: provide_league_info
+  examples: |
+    - [premier league](league_name)
+    - [all](league_name)
+    - [la liga](league_name)
+    - [champion league](league_name) please
+    - [euro](league_name)
+    - [euro championship] please
 
 - synonym: '4'
   examples: |
@@ -116,16 +144,18 @@ nlu:
 - lookup: query_type
   examples: |
     - goals
-    - position
+    - assists
 
 - lookup: league_name
   examples: |
     - premier league
     - la liga
     - euro
+    - euro championship
     - ...
     - bundesliga
     - seriea
+    - champion league
 
 - lookup: club_name
   examples: |
@@ -133,7 +163,11 @@ nlu:
     - england
     - germany
     - croatia
+    - aston villa
+    - italy
     - ...
     - manchester city
     - real madrid
+    - liverpool
+    - arsenal
     - manchester united

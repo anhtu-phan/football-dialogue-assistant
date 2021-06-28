@@ -1,12 +1,9 @@
 import logging  # These are neseccary libraries we are importing
-import json
-from sanic import Blueprint, response
-from sanic.request import Request
-from typing import Text, Optional, List, Dict, Any
 
-from rasa.core.channels.channel import UserMessage, OutputChannel
-from rasa.core.channels.channel import InputChannel
 from rasa.core.channels.channel import CollectingOutputChannel
+from rasa.core.channels.channel import InputChannel
+from rasa.core.channels.channel import UserMessage
+from sanic import Blueprint, response
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +43,7 @@ class GoogleConnector(InputChannel):
                     responses = [m["text"] for m in out.messages]
                     message = responses[0]
                 except Exception as e:
+                    print(e)
                     print(payload)
                     message = "Sorry! I don't get your point. Could you repeat please!"
 

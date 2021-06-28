@@ -1,0 +1,34 @@
+stories:
+
+- story: story_20210609
+  steps:
+  - user: |
+      hi
+  - intent: greet
+  - action: utter_greet
+  - user: |
+      [euro championship]{"entity": "league_name"} information
+  - intent: ask_league_info
+  - action: action_provide_league_info
+  - user: |
+      top [4]{"entity": "query_number"} players of the [Euro]{"entity": "league_name"} now?
+  - intent: ask_top_player
+  - action: action_top_player
+  - user: |
+      How many [goals]{"entity": "query_type"} did [Ronaldo]{"entity": "PERSON"} score at Euro?
+  - intent: ask_player_info
+  - action: action_player_info
+  - user: |
+      The next match of [England]{"entity": "club_name"} at [Euro]{"entity": "league_name"}
+  - intent: ask_fixtures
+  - action: action_fixtures
+  - user: |
+      The position of [England]{"entity": "club_name"}
+  - intent: ask_club_info
+  - action: action_club_info
+  - slot_was_set:
+      - club_information: '{"team_name": "England", "result": [{"league_id": 5, "league_name": "UEFA Nations League", "rank": 3, "points": 10}, {"league_id": 32, "league_name": "World Cup - Qualification Europe", "rank": 1, "points": 9}, {"league_id": 4, "league_name": "Euro Championship", "rank": 1, "points": 7}]}'
+  - user: |
+      [euro]{"entity": "league_name"}
+  - intent: provide_league_info
+  - action: action_club_info_spec

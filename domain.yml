@@ -7,21 +7,19 @@ intents:
   - deny
   - bot_challenge
   - ask_league_info
-  - ask_statistic_league
   - ask_top_player
   - ask_player_info
   - ask_fixtures
-  - ask_line_up
   - ask_club_info
+  - provide_league_info
 
 actions:
   - action_provide_league_info
-  - action_statistic_league
   - action_top_player
   - action_player_info
   - action_fixtures
-  - action_line_up
   - action_club_info
+  - action_club_info_spec
 
 entities:
   - league_name
@@ -58,6 +56,8 @@ slots:
   query_number:
     type: text
   season:
+    type: text
+  club_information:
     type: text
 
 responses:
