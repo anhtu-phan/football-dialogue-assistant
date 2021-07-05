@@ -1,6 +1,8 @@
 # Football Dialogue Assistant
 
 ### How to run
+[demo](https://youtu.be/L04eJZUhPQU)
+
 - `pip install rasa`
 - Following Step 2: Initializing the Google Assistant Action [here](https://github.com/esrel/LUS/blob/master/notebooks/rasa_google.ipynb) to create a Google's speech-to-text service
 - Create account and key in [RapidAPI](https://rapidapi.com/api-sports/api/api-football)
