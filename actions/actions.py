@@ -172,23 +172,24 @@ class ActionClubInfo(Action):
         club_name = tracker.get_slot("club_name")
         league_name = tracker.get_slot("league_name")
         print(f"ActionClubInfo ---->>>>> {club_name} at {league_name} Slot = {tracker.slots}")
-        try:
-            result = get_info.get_standing_by_team(team=club_name, league_name=league_name)
-            if len(result['result']) > 1:
-                mess = ""
-                for i in range(len(result['result'])-1):
-                    le = result['result'][i]
-                    mess += f"{le['league_name']}, "
-                mess += f"and {result['result'][-1]['league_name']}"
-                dispatcher.utter_message(f"{result['team_name']} is participating {mess}.\n"
-                                         f"Which league do you want to know about?")
+        # try:
+        result = get_info.get_standing_by_team(team=club_name, league_name=league_name)
+        print(result)
+        if len(result['result']) > 1:
+            mess = ""
+            for i in range(len(result['result'])-1):
+                le = result['result'][i]
+                mess += f"{le['league_name']}, "
+            mess += f"and {result['result'][-1]['league_name']}"
+            dispatcher.utter_message(f"{result['team_name']} is participating {mess}.\n"
+                                     f"Which league do you want to know about?")
 
-                return [SlotSet("club_name", None), SlotSet("query_type", None), SlotSet("league_name", None), SlotSet("club_information", json.dumps(result))]
-            else:
-                mess = f"In {result['result'][0]['league_name']}, {result['team_name']} is at {result['result'][0]['rank']} position with {result['result'][0]['points']} point"
-        except Exception as e:
-            print(e)
-            mess = "Sorry! I cannot find this information!"
+            return [SlotSet("club_name", None), SlotSet("query_type", None), SlotSet("league_name", None), SlotSet("club_information", json.dumps(result))]
+        else:
+            mess = f"In {result['result'][0]['league_name']}, {result['team_name']} is at {result['result'][0]['rank']} position with {result['result'][0]['points']} point"
+        # except Exception as e:
+        #     print(e)
+        #     mess = "Sorry! I cannot find this information!"
         dispatcher.utter_message(mess)
         return [SlotSet("club_name", None)]
 

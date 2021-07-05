@@ -145,6 +145,8 @@ nlu:
   examples: |
     - goals
     - assists
+    - goal
+    - assist
 
 - lookup: league_name
   examples: |

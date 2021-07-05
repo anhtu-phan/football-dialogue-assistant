@@ -181,7 +181,7 @@ def get_standing_by_team(team, season=None, league_name=None):
         season = int(datetime.today().year) - 1
     querystring['season'] = season
     if league_name is not None:
-        league_id = search_league(league_name)
+        league_id = search_league(league_name)['id']
         if league_id is not None:
             querystring['league'] = league_id
 
@@ -261,5 +261,5 @@ def get_player_statistic(player_name, league_names, season=None, nb_league=0, qu
 if __name__ == '__main__':
     # league_id = search_league("euro")
     # r = get_player_statistic("werner", ["euro"], nb_league=0)
-    r = get_standing_by_team(team="chelsea")
+    r = get_standing_by_team(team="england", league_name="euro")
     print(r)
