@@ -1,7 +1,9 @@
 # Football Dialogue Assistant
+This project try to build a dialogue system (chat bot) that will provide the information about football such as the league fixtures, team information, player statistic, ...
+
+### [Demo](https://youtu.be/L04eJZUhPQU)
 
 ### How to run
-[demo](https://youtu.be/L04eJZUhPQU)
 
 - `pip install rasa`
 - Following Step 2: Initializing the Google Assistant Action [here](https://github.com/esrel/LUS/blob/master/notebooks/rasa_google.ipynb) to create a Google's speech-to-text service
